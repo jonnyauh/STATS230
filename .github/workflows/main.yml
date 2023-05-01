@@ -1,0 +1,30 @@
+---
+title: "Stats230 Final"
+author: "Jonny Auh"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(car)
+library(leaps)
+library(lubridate)
+library(rvest)
+#Read in Medal information URL
+url <- "https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table"
+browseURL(url)
+webpage <- read_html(url)
+```
+
+
+```{r}
+#Create Dataframe that has columns of country, total medals, and various types of medals
+country <- html_nodes(webpage, '.jquery-tablesorter a')
+country <- html_text(country)
+totalMedals <- html_nodes(webpage, 'tr:nth-child(86) td:nth-child(5) , tr:nth-child(85) td:nth-child(5) , tr:nth-child(84) td:nth-child(5) , tr:nth-child(83) td:nth-child(5) , tr:nth-child(82) td:nth-child(5) , tr:nth-child(81) td:nth-child(5) , tr:nth-child(80) td:nth-child(5) , tr:nth-child(79) td:nth-child(5) , tr:nth-child(76) td:nth-child(5) , tr:nth-child(73) td:nth-child(5) , tr:nth-child(72) td:nth-child(5) , tr:nth-child(71) td:nth-child(5) , tr:nth-child(70) td:nth-child(5) , tr:nth-child(68) td:nth-child(5) , tr:nth-child(64) td:nth-child(5) , tr:nth-child(59) td:nth-child(5) , tr:nth-child(58) td:nth-child(5) , tr:nth-child(57) td:nth-child(5) , tr:nth-child(56) td:nth-child(5) , tr:nth-child(55) td:nth-child(5) , tr:nth-child(53) td:nth-child(5) , tr:nth-child(52) td:nth-child(5) , tr:nth-child(49) td:nth-child(5) , tr:nth-child(36) td:nth-child(5) , .jquery-tablesorter td:nth-child(6)')
+totalMedals <- html_text(totalMedals)
+totalMedals <- as.integer(totalMedals)
